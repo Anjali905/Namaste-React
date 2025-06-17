@@ -1,0 +1,27 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "Namaste react project",
+  "main": "App.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anjali905/Namaste-React.git"
+  },
+  "keywords": [],
+  "author": "Anjali Ajithkumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anjali905/Namaste-React/issues"
+  },
+  "homepage": "https://github.com/Anjali905/Namaste-React#readme",
+  "devDependencies": {
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}
