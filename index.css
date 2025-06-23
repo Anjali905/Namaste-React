@@ -1,3 +1,73 @@
-#heading{
-    color:red
+.app-logo {
+  width: 120px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+.nav-item > ul {
+  display: flex;
+  list-style-type: none;
+  padding-right: 40px;
+  justify-content: center;
+  font-size: 24px;
+}
+.nav-item > ul > li {
+  padding: 10px;
+  margin: 10px;
+}
+.search {
+  padding: 10px;
+}
+.res-card {
+  width: 200px;
+  padding: 7px;
+}
+.res-container {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.res-card:hover {
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.title {
+  font-weight: bold;
+  font-size: 20px;
+}
+.res-logo {
+  width: 100%;
+  border-radius: 10px;
+}
+.dets {
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  color: gray;
+  gap: 10px;
+}
+
+.headComtainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.headComtainer .title {
+  flex: 6;
+  min-width: 0;
+}
+.headComtainer .dliveryTime {
+  flex: 4;
+  text-align: right;
+  font-size: 14px;
+  color: gray;
+}
+.rating {
+  font-size: 12px;
+  color: gray;
 }
