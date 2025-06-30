@@ -1,6 +1,7 @@
 import { RES_IMAGE } from "../utils/constants";
 import React from "react";
 const RestaurantCard = ({ resData }) => {
+    
   return (
     <div className="res-card" key={resData.id}>
       <img

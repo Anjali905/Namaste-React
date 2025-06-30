@@ -4,7 +4,7 @@
   "description": "Namaste react project",
   "main": "App.js",
   "scripts": {
-    "start":"vite",
+    "start": "vite",
     "test": "jest"
   },
   "repository": {
@@ -22,10 +22,12 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^4.6.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.3"
   },
-  "browserslist":[
+  "browserslist": [
     "last 2 versions"
   ]
 }
