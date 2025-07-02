@@ -1,52 +1,72 @@
 import React, { useEffect, useState } from "react";
-import { restaurantData } from "../utils/mockData";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
+import { Link} from "react-router-dom";
+import useOnlineStatus from "../hooks/useOnlineStatus";
 
 const Body = () => {
-  const [listRestaurant, setListRestaurant] = useState(restaurantData);
-  const[filteresRes,setFilteredRes]= useState(restaurantData);
-  const[search,setSearch]= useState("");
-  const FilterTop = () => {
-    setFilteredRes(listRestaurant.filter((item) => item.avgRating >= 4.5));
+  const [listRestaurant, setListRestaurant] = useState([]);
+  const [filteredRes, setFilteredRes] = useState([]);
+  const [search, setSearch] = useState("");
+  const onlineStatus = useOnlineStatus();
+  const filterTopRated = () => {
+    setFilteredRes(listRestaurant.filter((item) => item.data.avgRating >= 4.5));
   };
-  useEffect(()=>{
-    console.log("search text", search)
-  },[search,listRestaurant]);
-  const handleSearch =() => {
-  setFilteredRes(listRestaurant.filter((item)=> item?.name?.toLowerCase()?.includes(search.toLowerCase().trim())));
-  }
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-//   useEffect(() => {
-//     console.log(listRestaurant);
-//   }, [listRestaurant]);
-//   const fetchData = async () => {
-//     const resData = await fetch(
-//       "https://www.swiggy.com/mapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&collection=83639&tags=layout_CCS_Biryani&sortBy=&filters=&type=rcv2&offset=0&carousel=true&third_party_vendor=1"
-//     );
-//     const resJson = await resData.json();
-//     console.log("json", resJson.data.cards.slice(4));
-//     setListRestaurant(resJson?.data?.cards?.slice(4));
-//   };
- 
-  return listRestaurant.length=== 0 ? <Shimmer/> :(
-    <div>
+
+  const handleSearch = () => {
+    const filtered = listRestaurant.filter((item) => 
+      item.data?.name?.toLowerCase()?.includes(search.toLowerCase().trim())
+    );
+    setFilteredRes(filtered);
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://www.swiggy.com/mapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&collection=83633&tags=layout_CCS_NorthIndian&sortBy=&filters=&type=rcv2&offset=0&carousel=true&third_party_vendor=1"
+      );
+      const data = await response.json();
+      const restaurants = data?.data?.cards?.slice(4) || [];
+      setListRestaurant(restaurants);
+      setFilteredRes(restaurants);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+if(!onlineStatus) return <h1>No Internet</h1>
+  return listRestaurant.length === 0 ? (
+    <Shimmer />
+  ) :(
+    <div className="body">
       <div className="search">
-       <input type="text" value={search} onChange={(e)=> setSearch(prev => e.target.value)}/>
-       <button onClick={handleSearch}>Search</button>
+        <input 
+          type="text" 
+          value={search} 
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search restaurants..."
+        />
+        <button onClick={handleSearch}>Search</button>
       </div>
-          <button onClick={FilterTop}>Top Rated Restaurants</button>
-          <div className="res-container">
-            {filteresRes.map((res) => (
-              <RestaurantCard
-                key={res.id}
-                resData={res}
-              />
-            ))}
-          </div>
+      <button onClick={filterTopRated}>Top Rated Restaurants</button>
+      <div className="res-container">
+        {filteredRes.length > 0 ? (
+          filteredRes.map((res) => (
+           <Link to={"/restaurant/" + res.card.card.info.id}> <RestaurantCard
+              key={res.card.card.info.id}
+              resData={res.card.card.info}
+            /></Link>
+          ))
+        ) : (
+          <p>No restaurants found matching your criteria.</p>
+        )}
+      </div>
     </div>
   );
 };
+
 export default Body;
