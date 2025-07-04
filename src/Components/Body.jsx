@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withLabelPromoted } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import useOnlineStatus from "../hooks/useOnlineStatus";
 
 const Body = () => {
@@ -9,12 +9,13 @@ const Body = () => {
   const [filteredRes, setFilteredRes] = useState([]);
   const [search, setSearch] = useState("");
   const onlineStatus = useOnlineStatus();
+  const PromotedResturant = withLabelPromoted(RestaurantCard);
   const filterTopRated = () => {
     setFilteredRes(listRestaurant.filter((item) => item.data.avgRating >= 4.5));
   };
 
   const handleSearch = () => {
-    const filtered = listRestaurant.filter((item) => 
+    const filtered = listRestaurant.filter((item) =>
       item.data?.name?.toLowerCase()?.includes(search.toLowerCase().trim())
     );
     setFilteredRes(filtered);
@@ -38,15 +39,15 @@ const Body = () => {
     fetchData();
   }, []);
 
-if(!onlineStatus) return <h1>No Internet</h1>
+  if (!onlineStatus) return <h1>No Internet</h1>;
   return listRestaurant.length === 0 ? (
     <Shimmer />
-  ) :(
+  ) : (
     <div className="body">
       <div className="search">
-        <input 
-          type="text" 
-          value={search} 
+        <input
+          type="text"
+          value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search restaurants..."
         />
@@ -56,10 +57,16 @@ if(!onlineStatus) return <h1>No Internet</h1>
       <div className="res-container">
         {filteredRes.length > 0 ? (
           filteredRes.map((res) => (
-           <Link to={"/restaurant/" + res.card.card.info.id}> <RestaurantCard
-              key={res.card.card.info.id}
-              resData={res.card.card.info}
-            /></Link>
+            <Link to={"/restaurant/" + res.card.card.info.id} className="link">
+              {res.card.card.info.promoted ? (
+                <PromotedResturant resData={res.card.card.info}/>
+              ) : (
+                <RestaurantCard
+                  key={res.card.card.info.id}
+                  resData={res.card.card.info}
+                />
+              )}
+            </Link>
           ))
         ) : (
           <p>No restaurants found matching your criteria.</p>

@@ -1,5 +1,6 @@
 import { RES_IMAGE } from "../utils/constants";
 import React from "react";
+/* withLabelPromoted is higher order componwent*/ 
 const RestaurantCard = ({ resData }) => {
     
   return (
@@ -24,4 +25,16 @@ const RestaurantCard = ({ resData }) => {
     </div>
   );
 };
+
 export default RestaurantCard;
+
+export const withLabelPromoted = (RestaurantCard)=>{
+   return (props)=>{
+    return(
+    <div>
+      <label>Promoted</label>
+      <RestaurantCard {...props}/>
+    </div>
+    )
+    }
+  }

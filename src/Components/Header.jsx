@@ -14,6 +14,10 @@ const navItems= [
     id:3,
     name:"Contact Us",
     path:"/contact"
+  },{
+    id:4,
+    name:"Grocery",
+    path:"/grocery"
   }
 ]
 export const Header = () => {
